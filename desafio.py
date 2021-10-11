@@ -11,6 +11,10 @@ from pathlib import Path
 import shutil
 
 DATE_LENGTH = 10
+
+mensagemErro1 = 'Data inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa'
+mensagemErro2 = 'Digite uma data ao rodar o script, no formato dd-mm-aaaa ou dd/mm/aaaa.'
+
 datePatternRegex = re.compile(r'''(
 (\d{2})             # primeiros dois digitos(dia)
 (\/|-|\.|\s)        # separador
@@ -22,21 +26,23 @@ datePatternRegex = re.compile(r'''(
 
 diarioFileNameRegex = re.compile(r'(^DJE_)(\d+)_(\d+\.pdf$)')
 
-terminalInput = sys.argv[1:]
-date = terminalInput[0] #passa a entrada da linha de comando para date(string)
-
-print('date = '+date)
 try:
+    terminalInput = sys.argv[1:]
+    date = terminalInput[0] #passa a entrada da linha de comando para date(string)
+#print('date = '+date)
     if len(date) != DATE_LENGTH :
-        raise Exception('Data inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa')
-except IndexError:
-    print('Digite uma data ao rodar o script.')
-    #propoe ao usuario a digitar a data no formato correto
-match = re.search(datePatternRegex,date)
-if not match:
-    raise Exception('Data inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa')
+        raise Exception(mensagemErro1)
+    match = re.search(datePatternRegex,date)
+    if not match:
+        raise Exception(mensagemErro1)
     #propoe ao usuario a rodar o scrip novamente digitando a data no formato correto
-
+except IndexError:
+    print(mensagemErro2)
+    sys.exit(0)
+    #propoe ao usuario a digitar uma data ao utilizar o script
+except NameError: 
+    print(mensagemErro2)
+    sys.exit(0)
 ListaDiarios = []
 #for DiarioBaixado in Path.cwd().glob('DJE_*'):
 #    ListaDiarios.append(DiarioBaixado)
@@ -52,6 +58,9 @@ for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atua
         continue #se nao for um diario oficial, inicie uma nova interação do loop
 
     ListaDiarios.append(fileName)
+
+if len(ListaDiarios) == 0:
+    print('Não há diários baixados neste diretório.')
 
 for x in range(len(ListaDiarios)):
     print(ListaDiarios[x])
