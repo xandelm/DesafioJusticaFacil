@@ -10,29 +10,33 @@ import os
 from pathlib import Path
 import shutil
 
-DATE_LENGTH = 10
+TAM_DATA = 10
 
 mensagemErro1 = 'Data inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa'
 mensagemErro2 = 'Digite uma data ao rodar o script, no formato dd-mm-aaaa ou dd/mm/aaaa.'
 
-datePatternRegex = re.compile(r'''(
-(\d{2})             # primeiros dois digitos(dia)
+dataPatternRegex = re.compile(r'''(
+(\d{2})             # primeiros dois digitos(dia, grupo 1)
 (\/|-|\.|\s)        # separador
-(\d{2})             # dois digitos do meio(mes)
+(\d{2})             # dois digitos do meio(mes, grupo 3)
 (\/|-|\.|\s)        # separador
-(\d{4})             # ultimos dois digitos(ano)
+(\d{4})             # ultimos dois digitos(ano, grupo 5)
 )''',re.VERBOSE)
 
 
-diarioFileNameRegex = re.compile(r'(^DJE_)(\d+)_(\d+\.pdf$)')
-
+diarioFileNameRegex = re.compile(r'''(
+                                 (^DJE_) # os arquivos do diario oficial começam com os digitos DJE_
+                                 (\d{4}) # ano. group(3) 
+                                 (\d{2}) # mes. group(4)
+                                 (\d{2}) # dias. group(5)
+                                 _(\d+\.pdf$) # os arquivos serao terminados em pdf
+                                 )''',re.VERBOSE)
 try:
     terminalInput = sys.argv[1:]
-    date = terminalInput[0] #passa a entrada da linha de comando para date(string)
-#print('date = '+date)
-    if len(date) != DATE_LENGTH :
+    data = terminalInput[0] #passa a entrada da linha de comando para data(string)
+    if len(data) != TAM_DATA :
         raise Exception(mensagemErro1)
-    match = re.search(datePatternRegex,date)
+    match = re.search(dataPatternRegex,data)
     if not match:
         raise Exception(mensagemErro1)
     #propoe ao usuario a rodar o scrip novamente digitando a data no formato correto
@@ -43,27 +47,34 @@ except IndexError:
 except NameError: 
     print(mensagemErro2)
     sys.exit(0)
-ListaDiarios = []
+
+
 #for DiarioBaixado in Path.cwd().glob('DJE_*'):
 #    ListaDiarios.append(DiarioBaixado)
 #DiariosBaixados = list(Path.cwd().glob('DJE_*'))
 #for x in range(len(ListaDiarios)):
 #    print(ListaDiarios[x])
 
-
+dataSemSeparadores = data[0:2] + data[3:5] + data[6:]
+#ListaDiarios = []
+listaDatasDiarios = []
 
 for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atual
     matchObj = diarioFileNameRegex.search(fileName) #verifica se há algum diario oficial presente
     if matchObj == None:
         continue #se nao for um diario oficial, inicie uma nova interação do loop
+    dataArquivoAtual = matchObj.group(5) + matchObj.group(4) + matchObj.group(3) #data arquivo atual = string de ano + string de mes + string de dia
+    listaDatasDiarios.append(dataArquivoAtual)
+    if(dataArquivoAtual == dataSemSeparadores):
+        #TODO chama a funcao de gerar hash
+        print('A data buscada está presente no diretório')
+    #ListaDiarios.append(fileName)
 
-    ListaDiarios.append(fileName)
-
-if len(ListaDiarios) == 0:
+if len(listaDatasDiarios) == 0:
     print('Não há diários baixados neste diretório.')
 
-for x in range(len(ListaDiarios)):
-    print(ListaDiarios[x])
+#for x in range(len(ListaDiarios)):
+#    print(ListaDiarios[x])
 
 
 
