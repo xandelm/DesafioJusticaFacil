@@ -1,20 +1,22 @@
 '''
 Recebe uma data de disponibilização de diarios oficiais
-do Supremo Tribunal Federal e retorna os MD5 dos diários 
+do Supremo Tribunal Federal e retorna os hashes(MD5) dos diários
 do dia recebido.
 '''
 
 import sys #possibilita entradas pela linha de comando.
 import re #possibilita o uso de funcoes relacionadas a Regex
-import os
-from pathlib import Path
-import shutil
+import os #possibilita o uso de funções do sistema operacional
+from pathlib import Path #possibilita algumas funções para manipulação de arquivos e diretórios
+import shutil #possibilita algumas operações em arquivos
+import hashlib #possibilita algumas funções para gerar o hash MD5
 
-TAM_DATA = 10
+TAM_DATA = 10 #tamanho da string da data que o usuário deve digitar
 
 mensagemErro1 = 'Data inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa'
 mensagemErro2 = 'Digite uma data ao rodar o script, no formato dd-mm-aaaa ou dd/mm/aaaa.'
 
+#formato de modelo regex da data
 dataPatternRegex = re.compile(r'''(
 (\d{2})             # primeiros dois digitos(dia, grupo 1)
 (\/|-|\.|\s)        # separador
@@ -24,6 +26,7 @@ dataPatternRegex = re.compile(r'''(
 )''',re.VERBOSE)
 
 
+#formato de modelo regex dos arquivos diarios baixados
 diarioFileNameRegex = re.compile(r'''(
                                  (^DJE_) # os arquivos do diario oficial começam com os digitos DJE_
                                  (\d{4}) # ano. group(3) 
@@ -49,18 +52,11 @@ except NameError:
     sys.exit(0)
 
 
-#for DiarioBaixado in Path.cwd().glob('DJE_*'):
-#    ListaDiarios.append(DiarioBaixado)
-#DiariosBaixados = list(Path.cwd().glob('DJE_*'))
-#for x in range(len(ListaDiarios)):
-#    print(ListaDiarios[x])
-
 dataSemSeparadores = data[0:2] + data[3:5] + data[6:]
-#ListaDiarios = []
 listaDatasDiarios = []
 
 for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atual
-    matchObj = diarioFileNameRegex.search(fileName) #verifica se há algum diario oficial presente
+    matchObj = diarioFileNameRegex.search(fileName) #verifica se o arquivo é um diário oficial
     if matchObj == None:
         continue #se nao for um diario oficial, inicie uma nova interação do loop
     dataArquivoAtual = matchObj.group(5) + matchObj.group(4) + matchObj.group(3) #data arquivo atual = string de ano + string de mes + string de dia
@@ -72,14 +68,7 @@ for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atua
 
 if len(listaDatasDiarios) == 0:
     print('Não há diários baixados neste diretório.')
-
-#for x in range(len(ListaDiarios)):
-#    print(ListaDiarios[x])
-
+else:
+    print('Não existem diários correspondentes com a data buscada.')
 
 
-#os.listdir(Path.cwd()) will return a list of filename strings for each file in the path argument.
-#for filename in os.listdir(Path.cwd()):
-
-#p = Path('C:/Users/Al/Desktop')
-#list(p.glob('*.txt'))
