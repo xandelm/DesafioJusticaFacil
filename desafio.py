@@ -11,19 +11,43 @@ from pathlib import Path #possibilita algumas funções para manipulação de ar
 import shutil #possibilita algumas operações em arquivos
 import hashlib #possibilita algumas funções para gerar o hash MD5
 
-TAM_DATA = 10 #tamanho da string da data que o usuário deve digitar
 
-mensagemErro1 = 'Data inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa'
-mensagemErro2 = 'Digite uma data ao rodar o script, no formato dd-mm-aaaa ou dd/mm/aaaa.'
+def getDataFromTerminal(): #recebe uma data do usuário, pelo terminal/linha de comandos
 
-#formato de modelo regex da data
-dataPatternRegex = re.compile(r'''(
-(\d{2})             # primeiros dois digitos(dia, grupo 1)
-(\/|-|\.|\s)        # separador
-(\d{2})             # dois digitos do meio(mes, grupo 3)
-(\/|-|\.|\s)        # separador
-(\d{4})             # ultimos dois digitos(ano, grupo 5)
-)''',re.VERBOSE)
+    #formato de modelo regex da data
+    dataPatternRegex = re.compile(r'''(
+    (\d{2})             # primeiros dois digitos(dia, grupo 1)
+    (\/|-|\.|\s)        # separador
+    (\d{2})             # dois digitos do meio(mes, grupo 3)
+    (\/|-|\.|\s)        # separador
+    (\d{4})             # ultimos dois digitos(ano, grupo 5)
+    )''',re.VERBOSE)
+
+    TAM_DATA = 10 #tamanho da string da data que o usuário deve digitar
+    mensagemErro1 = 'Data inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa'
+    mensagemErro2 = 'Digite uma data ao rodar o script, no formato dd-mm-aaaa ou dd/mm/aaaa.'
+
+    try:
+        terminalInput = sys.argv[1:]
+        data = terminalInput[0] #passa a entrada da linha de comando para data(string)
+        if len(data) != TAM_DATA :
+            raise Exception(mensagemErro1)
+        match = re.search(dataPatternRegex,data)
+        if match:
+            return data
+        else:
+            raise Exception(mensagemErro1)
+        #propoe ao usuario a rodar o scrip novamente digitando a data no formato correto
+    except IndexError:
+        print(mensagemErro2)
+        sys.exit(0)
+        #propoe ao usuario a digitar uma data ao utilizar o script
+    except NameError: 
+        print(mensagemErro2)
+        sys.exit(0)
+
+
+
 
 
 #formato de modelo regex dos arquivos diarios baixados
@@ -34,26 +58,13 @@ diarioFileNameRegex = re.compile(r'''(
                                  (\d{2}) # dias. group(5)
                                  _(\d+\.pdf$) # os arquivos serao terminados em pdf
                                  )''',re.VERBOSE)
-try:
-    terminalInput = sys.argv[1:]
-    data = terminalInput[0] #passa a entrada da linha de comando para data(string)
-    if len(data) != TAM_DATA :
-        raise Exception(mensagemErro1)
-    match = re.search(dataPatternRegex,data)
-    if not match:
-        raise Exception(mensagemErro1)
-    #propoe ao usuario a rodar o scrip novamente digitando a data no formato correto
-except IndexError:
-    print(mensagemErro2)
-    sys.exit(0)
-    #propoe ao usuario a digitar uma data ao utilizar o script
-except NameError: 
-    print(mensagemErro2)
-    sys.exit(0)
 
+
+data = getDataFromTerminal() #recebe uma data do usuário, pelo terminal/linha de comandos
 
 dataSemSeparadores = data[0:2] + data[3:5] + data[6:]
 listaDatasDiarios = []
+contDiariosDataCorreta = 0
 
 for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atual
     matchObj = diarioFileNameRegex.search(fileName) #verifica se o arquivo é um diário oficial
@@ -63,12 +74,13 @@ for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atua
     listaDatasDiarios.append(dataArquivoAtual)
     if(dataArquivoAtual == dataSemSeparadores):
         #TODO chama a funcao de gerar hash
+        contDiariosDataCorreta+=1
         print('A data buscada está presente no diretório')
-    #ListaDiarios.append(fileName)
 
-if len(listaDatasDiarios) == 0:
-    print('Não há diários baixados neste diretório.')
-else:
-    print('Não existem diários correspondentes com a data buscada.')
 
+if contDiariosDataCorreta == 0: #se nao existirem datas correspondentes com a busca
+    if len(listaDatasDiarios) == 0: #se nao existirem diarios no diretorio
+        print('Não há diários baixados neste diretório.')
+    else: #se existirem diarios no diretório mas nenhum correspondente com a busca
+        print('Não existem diários correspondentes com a data buscada.')
 
