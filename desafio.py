@@ -8,7 +8,7 @@ import sys #possibilita entradas pela linha de comando.
 import re #possibilita o uso de funcoes relacionadas a Regex
 import os #possibilita o uso de funções do sistema operacional
 from pathlib import Path #possibilita algumas funções para manipulação de arquivos e diretórios
-import shutil #possibilita algumas operações em arquivos
+import shutil #possibilita algumas operações em arquivos, em especial para renomear estes
 import hashlib #possibilita algumas funções para gerar o hash MD5
 
 
@@ -78,6 +78,7 @@ for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atua
         res = generateMD5(fileName)
         contDiariosDataCorreta+=1
         print(res)
+        shutil.move(fileName,res)
 
 if contDiariosDataCorreta == 0: #se nao existirem datas correspondentes com a busca
     if len(listaDatasDiarios) == 0: #se nao existirem diarios no diretorio
