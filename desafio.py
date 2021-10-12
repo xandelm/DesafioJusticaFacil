@@ -47,7 +47,7 @@ def getDataFromTerminal(): #recebe uma data do usuário, pelo terminal/linha de 
         sys.exit(0)
 
 
-def generateMD5(fileName):
+def generateMD5(fileName): #Recebe uma string e a retorna codificada em um hash MD5
     dataMD5 = hashlib.md5(fileName.encode())
     return dataMD5.hexdigest()
 
@@ -64,7 +64,7 @@ diarioFileNameRegex = re.compile(r'''(
 
 data = getDataFromTerminal() #recebe uma data do usuário, pelo terminal/linha de comandos
 
-dataSemSeparadores = data[0:2] + data[3:5] + data[6:]
+dataSemSeparadores = data[0:2] + data[3:5] + data[6:] #remove os separadores e coloca no formato correto para comparação
 listaDatasDiarios = []
 contDiariosDataCorreta = 0
 
@@ -78,7 +78,7 @@ for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atua
         res = generateMD5(fileName)
         contDiariosDataCorreta+=1
         print(res)
-        shutil.move(fileName,res)
+        shutil.move(fileName,res) #renomeia o arquivo pdf para o seu hash MD5 correspondente
 
 if contDiariosDataCorreta == 0: #se nao existirem datas correspondentes com a busca
     if len(listaDatasDiarios) == 0: #se nao existirem diarios no diretorio
