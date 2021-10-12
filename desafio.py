@@ -47,7 +47,9 @@ def getDataFromTerminal(): #recebe uma data do usuário, pelo terminal/linha de 
         sys.exit(0)
 
 
-
+def generateMD5(fileName):
+    dataMD5 = hashlib.md5(fileName.encode())
+    return dataMD5.hexdigest()
 
 
 #formato de modelo regex dos arquivos diarios baixados
@@ -72,11 +74,10 @@ for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atua
         continue #se nao for um diario oficial, inicie uma nova interação do loop
     dataArquivoAtual = matchObj.group(5) + matchObj.group(4) + matchObj.group(3) #data arquivo atual = string de ano + string de mes + string de dia
     listaDatasDiarios.append(dataArquivoAtual)
-    if(dataArquivoAtual == dataSemSeparadores):
-        #TODO chama a funcao de gerar hash
+    if(dataArquivoAtual == dataSemSeparadores): #se a data da busca e a data do arquivo forem correspondentes
+        res = generateMD5(fileName)
         contDiariosDataCorreta+=1
-        print('A data buscada está presente no diretório')
-
+        print(res)
 
 if contDiariosDataCorreta == 0: #se nao existirem datas correspondentes com a busca
     if len(listaDatasDiarios) == 0: #se nao existirem diarios no diretorio
