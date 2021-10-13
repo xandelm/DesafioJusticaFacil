@@ -1,2 +1,11 @@
 # DesafioJusticaFacil
-Recebe uma data de disponibilização de diarios oficiais do Supremo Tribunal Federal e retorna os MD5 dos diários  do dia recebido.
+##Introdução
+Este repositório foi desenvolvido como parte do processo seletivo de estágio para a empresa Justiça Fácil.
+
+Os [diários oficiais](https://pt.wikipedia.org/wiki/Di%C3%A1rio_Oficial) são jornais criados, mantidos e administrados por governos para publicar as literaturas dos atos oficiais da administração pública executiva, legislativa e judiciária.
+Todos os dias, o sistema desenvolvido pelo [Justiça Fácil](justicafacil.com.br) tem que verificar se os diários do Supremo Tribunal Federal foram baixados corretamente.
+Para evitar que o mesmo diário seja processado mais de uma vez, foi desenvolvido por este candidato um programa escrito em python que auxilia na conferência dos diários baixados pelo sistema.
+O script desafio.py recebe uma data de disponibilização (data em que o diário foi colocado no sistema do tribunal) e retorna os hashes [MD5](https://pt.wikipedia.org/wiki/MD5) dos diários disponibilizados na data buscada.
+
+
+
