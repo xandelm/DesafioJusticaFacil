@@ -12,6 +12,8 @@ import shutil #possibilita algumas operações em arquivos, em especial para ren
 import hashlib #possibilita algumas funções para gerar o hash MD5
 
 
+
+
 def getDataFromTerminal(): #recebe uma data do usuário, pelo terminal/linha de comandos
 
     #formato de modelo regex da data
@@ -52,37 +54,56 @@ def generateMD5(fileName): #Recebe uma string e a retorna codificada em um hash 
     return dataMD5.hexdigest()
 
 
-#formato de modelo regex dos arquivos diarios baixados
-diarioFileNameRegex = re.compile(r'''(
-                                 (^DJE_) # os arquivos do diario oficial começam com os digitos DJE_
-                                 (\d{4}) # ano. group(3) 
-                                 (\d{2}) # mes. group(4)
-                                 (\d{2}) # dias. group(5)
-                                 _(\d+\.pdf$) # os arquivos serao terminados em pdf
-                                 )''',re.VERBOSE)
+def getListas(data):
+    '''retorna 3 listas
+    primeira = lista de datas dos diarios no diretório
+    segunda = lista de datas dos diarios no diretório correspondente com a busca
+    terceira = lista dos hashes MD5 gerados
+    '''
+    #formato de modelo regex dos arquivos diarios baixados
+    diarioFileNameRegex = re.compile(r'''(
+                                  (^DJE_) # os arquivos do diario oficial começam com os digitos DJE_
+                                  (\d{4}) # ano. group(3) 
+                                  (\d{2}) # mes. group(4)
+                                  (\d{2}) # dias. group(5)
+                                  _(\d+\.pdf$) # os arquivos serao terminados em pdf
+                                  )''',re.VERBOSE)
+
+
+
+    dataSemSeparadores = data[0:2] + data[3:5] + data[6:] #remove os separadores e coloca no formato correto para comparação
+    listaDatasDiarios = []
+    listaDatasDiariosCorrespondentes = []
+    listaHashesMD5 = []
+
+    for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atual
+        matchObj = diarioFileNameRegex.search(fileName) #verifica se o arquivo é um diário oficial
+        if matchObj == None:
+            continue #se nao for um diario oficial, inicie uma nova interação do loop
+        dataArquivoAtual = matchObj.group(5) + matchObj.group(4) + matchObj.group(3) #data arquivo atual = string de ano + string de mes + string de dia
+        listaDatasDiarios.append(dataArquivoAtual)
+        if(dataArquivoAtual == dataSemSeparadores): #se a data da busca e a data do arquivo forem correspondentes
+            listaDatasDiariosCorrespondentes.append(dataArquivoAtual)
+            hashGerado = generateMD5(fileName)
+            listaHashesMD5.append(hashGerado)
+            shutil.move(fileName,hashGerado) #renomeia o arquivo pdf para o seu hash MD5 correspondente
+    return listaDatasDiarios, listaDatasDiariosCorrespondentes, listaHashesMD5
+
+
+def printLista(lista):
+    for valor in lista:
+        print(valor)
+
+
 
 
 data = getDataFromTerminal() #recebe uma data do usuário, pelo terminal/linha de comandos
-
-dataSemSeparadores = data[0:2] + data[3:5] + data[6:] #remove os separadores e coloca no formato correto para comparação
-listaDatasDiarios = []
-contDiariosDataCorreta = 0
-
-for fileName in os.listdir(Path.cwd()): #Percorre os arquivos no diretório atual
-    matchObj = diarioFileNameRegex.search(fileName) #verifica se o arquivo é um diário oficial
-    if matchObj == None:
-        continue #se nao for um diario oficial, inicie uma nova interação do loop
-    dataArquivoAtual = matchObj.group(5) + matchObj.group(4) + matchObj.group(3) #data arquivo atual = string de ano + string de mes + string de dia
-    listaDatasDiarios.append(dataArquivoAtual)
-    if(dataArquivoAtual == dataSemSeparadores): #se a data da busca e a data do arquivo forem correspondentes
-        res = generateMD5(fileName)
-        contDiariosDataCorreta+=1
-        print(res)
-        shutil.move(fileName,res) #renomeia o arquivo pdf para o seu hash MD5 correspondente
-
-if contDiariosDataCorreta == 0: #se nao existirem datas correspondentes com a busca
-    if len(listaDatasDiarios) == 0: #se nao existirem diarios no diretorio
-        print('Não há diários baixados neste diretório.')
-    else: #se existirem diarios no diretório mas nenhum correspondente com a busca
-        print('Não existem diários correspondentes com a data buscada.')
+listaDatasDiarios, listaDatasDiariosCorrespondentes, listaHashesMD5 = getListas(data)
+if len(listaDatasDiariosCorrespondentes) == 0: #se nao existirem datas correspondentes com a busca
+    if len(listaDatasDiarios) == 0: #se nao existirem diarios no diretório
+        print('Não há diários oficiais baixados neste diretório.')
+    else: # se existirem diários no diretório mas nenhum correspondente com a busca
+        print('Não existem diários oficiais correspondentes com a data buscada.')
+else: #se existe(m) arquivo(s) correspondente(s) com a busca
+    printLista(listaHashesMD5)
 
