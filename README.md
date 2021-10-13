@@ -39,5 +39,5 @@ Foram também acessadas diversas fontes de pesquisa, tanto para revisão de conh
 - Diversos links do [StackOverflow](stackoverflow.com), [GeeksforGeeks](https://www.geeksforgeeks.org/) e [RealPython](realpython.com).
 
 ### Conclusão
-A realização deste projeto se mostrou uma ótima oportunidade de relembrar conceitos assim como a aquisição de novos conhecimentos. Aprender ao longo do desenvolvimento foi verdadeiramente gratificante, e espero ter a oportunidade de continuar meu crescimento como desenvolvedor como membro da equipe do Justiça Fácil.
+A realização deste projeto se mostrou uma ótima oportunidade de relembrar conceitos assim como a aquisição de novos conhecimentos. Aprender ao longo do desenvolvimento foi verdadeiramente gratificante, e espero ter a oportunidade de continuar meu crescimento de desenvolvedor como membro da equipe do Justiça Fácil.
 
