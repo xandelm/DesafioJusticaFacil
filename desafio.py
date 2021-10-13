@@ -26,7 +26,7 @@ def getDataFromTerminal(): #recebe uma data do usuário, pelo terminal/linha de 
     )''',re.VERBOSE)
 
     TAM_DATA = 10 #tamanho da string da data que o usuário deve digitar
-    mensagemErro1 = 'Data inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa'
+    mensagemErro1 = 'Entrada inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa'
     mensagemErro2 = 'Digite uma data ao rodar o script, no formato dd-mm-aaaa ou dd/mm/aaaa.'
 
     try:
@@ -103,7 +103,7 @@ if len(listaDatasDiariosCorrespondentes) == 0: #se nao existirem datas correspon
     if len(listaDatasDiarios) == 0: #se nao existirem diarios no diretório
         print('Não há diários oficiais baixados neste diretório.')
     else: # se existirem diários no diretório mas nenhum correspondente com a busca
-        print('Não existem diários oficiais correspondentes com a data buscada.')
+        print('Não existem diários oficiais baixados correspondentes com a data buscada.')
 else: #se existe(m) arquivo(s) correspondente(s) com a busca
     printLista(listaHashesMD5)
 

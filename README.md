@@ -13,10 +13,25 @@ O script desafio.py recebe uma data de disponibilização (data em que o diário
 ## Uso
 Para usar o programa, basta colocar o arquivo desafio.py no mesmo diretório(pasta) onde se encontram os diários oficiais baixados.
 Então, execute o script informando a data já pela linha de comando, junto a execução do script. Este aceita dois formatos: 
--dd-mm-aaaa 
--dd/mm/aaaa. 
+- dd-mm-aaaa 
+- dd/mm/aaaa. 
+
 Se for digitada uma data fora dos formatos aceitos, o programa avisará e informará o usuário do formato correto a ser utilizado. O programa também avisa se não houver nenhum diário oficial baixado no diretório deste(excluindo diários que já foram renomeados para o seu respectivo hash MD5).
 
 Se houverem diários baixados, mas nenhum com a data especifica buscada, o programa também avisará o usuário.
 
 Se existir um diário oficial correspondente a data de busca informada, o programa irá imprimir uma lista de hash MD5 dos PDFs destes. Também irá renomear estes arquivos pdf para o seu respectivo hash MD5.
+
+Segue um flowchart detalhando diferentes exemplos de entradas:
+
+```mermaid
+graph LR
+A(Entrada:) -- python desafio.py 06/10/2021 --> H((Diretório com diários))--> B(Gera o hash e renomeia os arquivos se estiverem presentes)
+A(Entrada:) -- python desafio.py 06/10/2021 --> F((Diretório sem diários)) --> G[Não há diários oficiais baixados neste diretório.]
+A(Entrada:) -- python desafio.py --> C[Digite uma data ao rodar o script, no formato dd-mm-aaaa ou dd/mm/aaaa.]
+A(Entrada:) --python desafio.py 28/01/1999 --> E
+A(Entrada:) --python desafio.py entradaerrada --> I[Entrada inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa]
+
+B --> D{Imprime o hash}
+E[Não existem diários oficiais baixados correspondentes com a data buscada.]
+
