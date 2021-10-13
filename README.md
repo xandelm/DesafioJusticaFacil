@@ -24,4 +24,4 @@ Se existir um diário oficial correspondente a data de busca informada, o progra
 
 Segue um flowchart detalhando diferentes exemplos de entradas:
 
-[![Flowchart](/images/Diagram.drawio)
+![Flowchart](/images/Diagram.drawio)
