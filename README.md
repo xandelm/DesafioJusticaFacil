@@ -24,14 +24,4 @@ Se existir um diário oficial correspondente a data de busca informada, o progra
 
 Segue um flowchart detalhando diferentes exemplos de entradas:
 
-```mermaid
-graph LR
-A(Entrada:) -- python desafio.py 06/10/2021 --> H((Diretório com diários))--> B(Gera o hash e renomeia os arquivos se estiverem presentes)
-A(Entrada:) -- python desafio.py 06/10/2021 --> F((Diretório sem diários)) --> G[Não há diários oficiais baixados neste diretório.]
-A(Entrada:) -- python desafio.py --> C[Digite uma data ao rodar o script, no formato dd-mm-aaaa ou dd/mm/aaaa.]
-A(Entrada:) --python desafio.py 28/01/1999 --> E
-A(Entrada:) --python desafio.py entradaerrada --> I[Entrada inválida. Digite a data no formato:dd-mm-aaaa ou dd/mm/aaaa]
-
-B --> D{Imprime o hash}
-E[Não existem diários oficiais baixados correspondentes com a data buscada.]
-
+[![Flowchart](/images/Diagram.drawio)
