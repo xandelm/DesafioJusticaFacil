@@ -1,11 +1,11 @@
 # DesafioJusticaFacil
 ## Introdução
-Este repositório foi desenvolvido como parte do processo seletivo de estágio para a empresa Justiça Fácil.
+Este repositório foi desenvolvido como parte de um desafio da Justiça Fácil.
 
 Os [diários oficiais](https://pt.wikipedia.org/wiki/Di%C3%A1rio_Oficial) são jornais criados, mantidos e administrados por governos para publicar as literaturas dos atos oficiais da administração pública executiva, legislativa e judiciária.
 
 Todos os dias, o sistema desenvolvido pelo [Justiça Fácil](justicafacil.com.br) tem que verificar se os diários do Supremo Tribunal Federal foram baixados corretamente.
-Para evitar que o mesmo diário seja processado mais de uma vez, foi desenvolvido por este candidato um programa escrito em python 3 que auxilia na conferência dos diários baixados pelo sistema.
+Para evitar que o mesmo diário seja processado mais de uma vez, foi desenvolvido um programa escrito em python 3 que auxilia na conferência dos diários baixados pelo sistema.
 
 O script desafio.py recebe uma data de disponibilização (data em que o diário foi colocado no sistema do tribunal), retorna os hashes [MD5](https://pt.wikipedia.org/wiki/MD5) dos diários disponibilizados na data buscada e renomeia os arquivos com seu respectivo hash.
 
@@ -28,7 +28,7 @@ Segue um flowchart detalhando diferentes exemplos de entradas:
 
 ## Relatório de Desenvolvimento
 
-Ao receber o desafio por e-mail, este candidato elegeu realizar uma revisão de conceitos básicos da linguagem de programação python. Após cumprida a revisão, o desenvolvimento começou, com o início deste repositório e escrevendo um simples programa para receber entrada pela linha de comandos. Então, se tornou necessário aprender novos conceitos relacionados a regex para a continuação do desenvolvimento. Após muito estudo, foi possível completar o projeto, proporcionando ao candidato um aprendizado considerável sobre desenvolvimento de programas em python, o uso de novas bibliotecas e Regex.
+Ao começar este desafio, foi realizada uma revisão de conceitos básicos da linguagem de programação python. Após cumprida a revisão, o desenvolvimento começou, com o início deste repositório e escrevendo um simples programa para receber entrada pela linha de comandos. Então, se tornou necessário aprender novos conceitos relacionados a regex para a continuação do desenvolvimento. Após muito estudo, foi possível completar o projeto, proporcionando ao candidato um aprendizado considerável sobre desenvolvimento de programas em python, o uso de novas bibliotecas e Regex.
 
 ### Recursos Utilizados
 Este projeto foi desenvolvido utilizando um computador com sistema operacional Linux e no editor de texto NeoVim acessado por terminal UNIX. Foi utilizado a linguagem de programação Python versão 3.8.10.
@@ -39,5 +39,4 @@ Foram também acessadas diversas fontes de pesquisa, tanto para revisão de conh
 - Diversos links do [StackOverflow](stackoverflow.com), [GeeksforGeeks](https://www.geeksforgeeks.org/) e [RealPython](realpython.com).
 
 ### Conclusão
-A realização deste projeto se mostrou uma ótima oportunidade de relembrar conceitos assim como a aquisição de novos conhecimentos. Aprender ao longo do desenvolvimento foi verdadeiramente gratificante, e espero ter a oportunidade de continuar meu crescimento de desenvolvedor como membro da equipe do Justiça Fácil.
-
+A realização deste projeto se mostrou uma ótima oportunidade de relembrar conceitos assim como a aquisição de novos conhecimentos.
